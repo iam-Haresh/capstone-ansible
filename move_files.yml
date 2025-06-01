@@ -27,7 +27,7 @@
   become: yes
 
   tasks:
-    - name: Copy AWS index.html
+    - name: Copy AWS index-aws.html
       copy:
         src: files/index-aws.html
         dest: /var/www/html/index-aws.html
@@ -54,7 +54,7 @@
   become: yes
 
   tasks:
-    - name: Copy Azure index.html
+    - name: Copy Azure index-azure.html
       copy:
         src: files/index-azure.html
         dest: /var/www/html/index-azure.html
