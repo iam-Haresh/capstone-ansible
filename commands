@@ -1,1 +1,3 @@
 ansible-playbook -i inventory.ini nginx_setup.yml
+
+ansible-playbook -i inventory.ini move_files.yml
