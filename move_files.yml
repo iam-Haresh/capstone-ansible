@@ -1,0 +1,70 @@
+---
+- name: Install and Configure Nginx on AWS and Azure
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Update apt cache (for Debian/Ubuntu)
+      apt:
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Start and enable Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Ensure Nginx serves /var/www/html/index.html
+      lineinfile:
+        path: /etc/nginx/sites-available/default
+        regexp: '^\s*index\s+'
+        line: '        index index.html;'
+        state: present
+      notify: Restart Nginx
+
+- name: Deploy Custom Index Page for AWS
+  hosts: aws
+  become: yes
+
+  tasks:
+    - name: Copy AWS index.html
+      copy:
+        src: files/index-aws.html
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+      notify: Restart Nginx
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+
+
+- name: Deploy Custom Index Page for Azure
+  hosts: azure
+  become: yes
+
+  tasks:
+    - name: Copy Azure index.html
+      copy:
+        src: files/index-azure.html
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+      notify: Restart Nginx
+
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
