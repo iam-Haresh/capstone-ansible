@@ -30,7 +30,7 @@
     - name: Copy AWS index.html
       copy:
         src: files/index-aws.html
-        dest: /var/www/html/index.html
+        dest: /var/www/html/index-aws.html
         owner: www-data
         group: www-data
         mode: '0644'
@@ -57,7 +57,7 @@
     - name: Copy Azure index.html
       copy:
         src: files/index-azure.html
-        dest: /var/www/html/index.html
+        dest: /var/www/html/index-azure.html
         owner: www-data
         group: www-data
         mode: '0644'
