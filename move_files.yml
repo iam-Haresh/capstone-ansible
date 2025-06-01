@@ -41,8 +41,6 @@
         regexp: '^\s*index\s+'
         line: '        index index-aws.html;'
         state: present
-      notify: Restart Nginx
-  handlers:
     - name: Restart Nginx
       service:
         name: nginx
@@ -68,9 +66,6 @@
         regexp: '^\s*index\s+'
         line: '        index index-azure.html;'
         state: present
-      notify: Restart Nginx
-
-  handlers:
     - name: Restart Nginx
       service:
         name: nginx
