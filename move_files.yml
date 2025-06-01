@@ -21,6 +21,7 @@
         state: started
         enabled: yes
 
+
 - name: Deploy Custom Index Page for AWS
   hosts: aws
   become: yes
@@ -33,6 +34,13 @@
         owner: www-data
         group: www-data
         mode: '0644'
+      notify: Restart Nginx
+    - name: Update Nginx config to serve index-aws.html
+      lineinfile:
+        path: /etc/nginx/sites-available/default
+        regexp: '^\s*index\s+'
+        line: '        index index-aws.html;'
+        state: present
       notify: Restart Nginx
   handlers:
     - name: Restart Nginx
@@ -53,6 +61,13 @@
         owner: www-data
         group: www-data
         mode: '0644'
+      notify: Restart Nginx
+    - name: Update Nginx config to serve index-azure.html
+      lineinfile:
+        path: /etc/nginx/sites-available/default
+        regexp: '^\s*index\s+'
+        line: '        index index-azure.html;'
+        state: present
       notify: Restart Nginx
 
   handlers:
